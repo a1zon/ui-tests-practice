@@ -1,0 +1,11 @@
+# Python
+__pycache__/
+*.pyc
+
+# Playwright
+files/playwright_trace/
+
+# venv
+.venv/
+venv/
+
