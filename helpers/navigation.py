@@ -10,7 +10,7 @@ class NavigationHelper:
                 page.goto(
                     url,
                     wait_until="domcontentloaded",
-                    timeout=60000
+                    timeout=30000
                 )
                 return
             except Exception:

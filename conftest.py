@@ -1,16 +1,35 @@
+from symbol import return_stmt
+
 from constants import  DEFAULT_UI_TIMEOUT
 from tools import Tools
 import pytest
 from faker import Faker
+from data.data_generator import DataGenerator
 import random
 
+
+@pytest.fixture(scope = "function")
+def test_user():
+    """
+    Фикстура для создания тестового юзера
+    """
+    random_email = DataGenerator.generate_random_email()
+    random_name = DataGenerator.generate_random_name()
+    random_password = DataGenerator.generate_random_password()
+
+    return {
+        "email": random_email,
+        "fullName": random_name,
+        "password": random_password,
+        "passwordRepeat": random_password,
+    }
 
 @pytest.fixture(scope="session")  # Браузер запускается один раз для всей сессии
 def browser(playwright):
     """
     Создание браузера
     """
-    browser = playwright.chromium.launch(headless=True,
+    browser = playwright.chromium.launch(headless=False,
                                          slow_mo=300)  # headless=True для CI/CD, headless=False для локальной разработки
     yield browser  # yield возвращает значение фикстуры, выполнение теста продолжится после yield
     browser.close()
@@ -47,55 +66,6 @@ def fake():
     return Faker('ru_RU')
 
 @pytest.fixture(scope="function")
-def user_registration_data(fake):
-    """
-    Фикстура для генерации ВСЕХ данных пользователя для регистрации
-    Возвращает словарь со всеми необходимыми полями
-    """
-
-
-    def get_unique_email():
-        email = fake.email()
-        return email
-
-
-    def get_full_name():
-        formats = [
-            f"{fake.first_name_male()} {fake.last_name_male()}",
-            f"{fake.first_name_female()} {fake.last_name_female()}",
-            f"{fake.first_name()} {fake.last_name()}",
-            f"{fake.first_name()} {fake.middle_name()} {fake.last_name()}",
-        ]
-        return random.choice(formats)
-
-
-    def get_strong_password(min_length=8, max_length=16):
-        length = random.randint(min_length, max_length)
-
-        # Генерируем базовый пароль с помощью Faker
-        password = fake.password(
-            length=length,
-            special_chars=True,
-            digits=True,
-            upper_case=True,
-            lower_case=True
-        )
-        return password
-
-    # Формируем полный набор данных
-    password = get_strong_password(12, 16)
-
-    user_data = {
-        'full_name': get_full_name(),
-        'email': get_unique_email(),
-        'password': password,
-        'password_repeat': password,  # Для поля подтверждения пароля
-
-    }
-
-    return user_data
-
-@pytest.fixture(scope="function")
 def invalid_user_data(fake):
     """
     Фикстура для генерации НЕВАЛИДНЫХ данных пользователя
@@ -113,13 +83,4 @@ def invalid_user_data(fake):
         'xss': '<script>alert("xss")</script>',
     }
 
-@pytest.fixture(scope="session")
-def admin_user_data():
-    """
-    Фикстура для данных администратора (если нужно)
-    """
-    return {
-        'email': 'admin@cinescope.ru',
-        'password': 'AdminPassword123!',
-        'role': 'admin'
-    }
+

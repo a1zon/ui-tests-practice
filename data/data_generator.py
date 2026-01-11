@@ -1,57 +1,67 @@
-import random
+import  random
+import  string
 from faker import Faker
+import datetime
 
-class TestDataGenerator:
-    """Класс для генерации тестовых данных"""
+faker = Faker()
 
-    def __init__(self, locale='ru_RU'):
-        self.fake = Faker(locale)
-        self.generated_emails = set()  # Для отслеживания уже использованных email
+class DataGenerator:
 
-    def get_unique_email(self, domain=None):
-        """Генерация уникального email"""
-        if domain is None:
-            domain = self.fake.free_email_domain()
+    @staticmethod
+    def generate_random_email():
+        random_string = ''.join(random.choices(string.ascii_lowercase + string.digits, k=8))
+        return f"kek{random_string}@gmail.com"
 
-        while True:
-            username = self.fake.user_name()
-            email = f"{username}@{domain}"
+    @staticmethod
+    def generate_random_name():
+        return f"{faker.first_name()} {faker.last_name()}"
 
-            # Проверяем уникальность в рамках текущей сессии
-            if email not in self.generated_emails:
-                self.generated_emails.add(email)
-                return email
+    @staticmethod
+    def generate_random_password():
 
-    def get_full_name(self):
-        """Генерация полного имени"""
-        # Можно выбрать разные форматы
-        formats = [
-            lambda: f"{self.fake.first_name_male()} {self.fake.last_name_male()}",
-            lambda: f"{self.fake.first_name_female()} {self.fake.last_name_female()}",
-            lambda: f"{self.fake.first_name()} {self.fake.middle_name()} {self.fake.last_name()}",
-        ]
-        return random.choice(formats)()
+        letters = random.choice(string.ascii_letters)
+        digits = random.choice(string.digits)
 
-    def get_strong_password(self, length=12):
-        """Генерация надежного пароля"""
-        # Минимальные требования: буквы, цифры, спецсимволы
-        lower = self.fake.password(length=4, special_chars=False, digits=False, upper_case=False)
-        upper = self.fake.password(length=3, special_chars=False, digits=False, upper_case=True)
-        digits = ''.join(str(self.fake.random_digit()) for _ in range(3))
-        special = ''.join(random.choice('!@#$%^&*') for _ in range(2))
+        special_chars = "?@#$%^&*|:"
+        all_chars = special_chars + string.digits + string.ascii_letters
+        remaining_length = random.randint(6,18)
+        remaining_chars  = ''.join(random.choices(all_chars,k = remaining_length))
 
-        # Собираем и перемешиваем
-        password = list(lower + upper + digits + special)
+        password = list(letters + digits + remaining_chars)
         random.shuffle(password)
+
         return ''.join(password)
 
-    def get_registration_data(self):
-        """Полный набор данных для регистрации"""
-        return {
-            'full_name': self.get_full_name(),
-            'email': self.get_unique_email(),
-            'password': self.get_strong_password(),
-        }
 
-# Экземпляр для использования в тестах
-generator = TestDataGenerator()
+    @staticmethod
+    def generate_random_int():
+        random_int = random.randint(1, 10_000)
+        return random_int
+
+    @staticmethod
+    def generate_random_int_variable(char: int):
+        random_int = random.randint(1, char)
+        return random_int
+
+
+    @staticmethod
+    def generate_random_sentence():
+        random_sentence = faker.sentence(nb_words=6)
+        return  random_sentence
+
+    @staticmethod
+    def generate_user_data() -> dict:
+        """Генерирует данные для тестового пользователя"""
+        from uuid import uuid4
+
+        return {
+            'id': f'{uuid4()}',  # генерируем UUID как строку
+            'email': DataGenerator.generate_random_email(),
+            'full_name': DataGenerator.generate_random_name(),
+            'password': DataGenerator.generate_random_password(),
+            'created_at': datetime.datetime.now(),
+            'updated_at': datetime.datetime.now(),
+            'verified': False,
+            'banned': False,
+            'roles': '{USER}'
+        }
