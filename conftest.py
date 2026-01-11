@@ -1,14 +1,11 @@
-from symbol import return_stmt
-
-from constants import  DEFAULT_UI_TIMEOUT
-from tools import Tools
 import pytest
 from faker import Faker
+from constants import DEFAULT_UI_TIMEOUT
 from data.data_generator import DataGenerator
-import random
+from tools import Tools
 
 
-@pytest.fixture(scope = "function")
+@pytest.fixture(scope="function")
 def test_user():
     """
     Фикстура для создания тестового юзера
@@ -24,12 +21,13 @@ def test_user():
         "passwordRepeat": random_password,
     }
 
+
 @pytest.fixture(scope="session")  # Браузер запускается один раз для всей сессии
 def browser(playwright):
     """
     Создание браузера
     """
-    browser = playwright.chromium.launch(headless=True,
+    browser = playwright.chromium.launch(headless=False,
                                          slow_mo=300)  # headless=True для CI/CD, headless=False для локальной разработки
     yield browser  # yield возвращает значение фикстуры, выполнение теста продолжится после yield
     browser.close()
@@ -65,6 +63,7 @@ def fake():
     """Фикстура для Faker"""
     return Faker('ru_RU')
 
+
 @pytest.fixture(scope="function")
 def invalid_user_data(fake):
     """
@@ -82,5 +81,3 @@ def invalid_user_data(fake):
         'sql_injection': "'; DROP TABLE users; --",
         'xss': '<script>alert("xss")</script>',
     }
-
-

@@ -1,9 +1,11 @@
-import  random
-import  string
-from faker import Faker
 import datetime
+import random
+import string
+
+from faker import Faker
 
 faker = Faker()
+
 
 class DataGenerator:
 
@@ -18,20 +20,18 @@ class DataGenerator:
 
     @staticmethod
     def generate_random_password():
-
         letters = random.choice(string.ascii_letters)
         digits = random.choice(string.digits)
 
         special_chars = "?@#$%^&*|:"
         all_chars = special_chars + string.digits + string.ascii_letters
-        remaining_length = random.randint(6,18)
-        remaining_chars  = ''.join(random.choices(all_chars,k = remaining_length))
+        remaining_length = random.randint(6, 18)
+        remaining_chars = ''.join(random.choices(all_chars, k=remaining_length))
 
         password = list(letters + digits + remaining_chars)
         random.shuffle(password)
 
         return ''.join(password)
-
 
     @staticmethod
     def generate_random_int():
@@ -43,11 +43,10 @@ class DataGenerator:
         random_int = random.randint(1, char)
         return random_int
 
-
     @staticmethod
     def generate_random_sentence():
         random_sentence = faker.sentence(nb_words=6)
-        return  random_sentence
+        return random_sentence
 
     @staticmethod
     def generate_user_data() -> dict:
