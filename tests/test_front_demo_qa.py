@@ -1,14 +1,15 @@
 import os
-from datetime import  datetime
+from datetime import datetime
+
 from playwright.sync_api import expect
-from helpers.navigation import NavigationHelper
 
 
 def test_demo_qa(page):
     """
     Тест текст бокса
     """
-    NavigationHelper.safe_goto(page,"https://demoqa.com/text-box")
+
+    page.goto("https://demoqa.com/text-box")
 
     page.fill("#userName", "Andrew")
     page.fill("#userEmail", "ass@gmail.com")
@@ -27,7 +28,8 @@ def test_demo_qa_obj(page):
     """
     Нажатие на кнопку
     """
-    NavigationHelper.safe_goto(page,"https://demoqa.com/webtables")
+
+    page.goto("https://demoqa.com/webtables")
     page.get_by_role("button", name="Add").click()
 
     modal = page.locator("div.modal:has(:text('Registration Form'))")
@@ -38,7 +40,7 @@ def test_demo_qa_full_fill(page):
     """
     Полное заполнение формы на регистрацию
     """
-    NavigationHelper.safe_goto(page,"https://demoqa.com/automation-practice-form")
+    page.goto("https://demoqa.com/automation-practice-form")
 
     today = datetime.now().strftime("%d %b %Y")
     date_value = page.get_attribute("#dateOfBirthInput", "value")
@@ -87,19 +89,18 @@ def test_radio_button_disabled(page):
     """
     Проверка включенности/отключенности элементов - радиобаттонов
     """
-    NavigationHelper.safe_goto(page,"https://demoqa.com/radio-button")
+    page.goto("https://demoqa.com/radio-button")
 
     expect(page.locator("#yesRadio")).to_be_enabled()
     expect(page.locator("#impressiveRadio")).to_be_enabled()
     expect(page.locator("#noRadio")).to_be_disabled()
 
 
-
 def test_checkbox_visibility(page):
     """
     Проверка видимости чебоксов
     """
-    NavigationHelper.safe_goto(page,"https://demoqa.com/checkbox")
+    page.goto("https://demoqa.com/checkbox")
 
     home = page.get_by_text("Home", exact=True)
     desktop = page.get_by_text("Desktop", exact=True)
@@ -116,8 +117,8 @@ def test_dynamic_properties_wait_for_element(page):
     """
     Проверка ожиданий
     """
-    NavigationHelper.safe_goto(page,
-        "https://demoqa.com/dynamic-properties"    )
+
+    page.goto("https://demoqa.com/dynamic-properties")
 
     button = page.locator("#visibleAfter")
 
@@ -125,9 +126,8 @@ def test_dynamic_properties_wait_for_element(page):
     expect(button).to_be_visible(timeout=10000)
 
 
-
 def test_radio_buttons_expect(page):
-    NavigationHelper.safe_goto(page,"https://demoqa.com/radio-button")
+    page.goto("https://demoqa.com/radio-button")
 
     yes_radio = page.get_by_role("radio", name="Yes")
     impressive_radio = page.get_by_role("radio", name="Impressive")
@@ -144,7 +144,7 @@ def test_radio_buttons_expect(page):
 
 
 def test_checkbox_visibility_expect(page):
-    NavigationHelper.safe_goto(page,"https://demoqa.com/checkbox")
+    page.goto("https://demoqa.com/checkbox")
 
     home = page.get_by_text("Home", exact=True)
     desktop = page.get_by_text("Desktop", exact=True)
@@ -158,14 +158,7 @@ def test_checkbox_visibility_expect(page):
 
 
 def test_dynamic_properties_expect(page):
-    # page.goto(
-    # "https://demoqa.com/dynamic-properties",
-    # wait_until="domcontentloaded",
-    # timeout=60000)
-    NavigationHelper.safe_goto(
-        page,
-        "https://demoqa.com/dynamic-properties"
-    )
+    page.goto("https://demoqa.com/dynamic-properties")
 
     button = page.locator("#visibleAfter")
 

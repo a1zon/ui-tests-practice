@@ -1,15 +1,13 @@
 from playwright.sync_api import expect
-from helpers.navigation import NavigationHelper
 
-def test_cinescope_successful_registration(page,test_user):
+
+def test_cinescope_successful_registration(page, test_user):
     """
     Тест на успешную регистрацию в Cinescope с генерацией данных
     Использует фикстуры page и user_registration_data из conftest.py
     """
 
-
-    NavigationHelper.safe_goto(page,"https://dev-cinescope.coconutqa.ru/register")
-
+    page.goto("https://dev-cinescope.coconutqa.ru/register")
     page.wait_for_selector("[name='fullName']", state="visible", timeout=60000)
     page.wait_for_selector("[type='submit']", state="visible", timeout=30000)
     page.fill("[name='fullName']", test_user['fullName'])

@@ -29,7 +29,7 @@ def browser(playwright):
     """
     Создание браузера
     """
-    browser = playwright.chromium.launch(headless=False,
+    browser = playwright.chromium.launch(headless=True,
                                          slow_mo=300)  # headless=True для CI/CD, headless=False для локальной разработки
     yield browser  # yield возвращает значение фикстуры, выполнение теста продолжится после yield
     browser.close()
