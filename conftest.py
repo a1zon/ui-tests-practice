@@ -16,7 +16,7 @@ def browser(playwright):
     browser.close()
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def context(browser):
     """
     Создание контекста
@@ -31,7 +31,7 @@ def context(browser):
     context.close()
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def page(context):
     """
     Создание страницы
