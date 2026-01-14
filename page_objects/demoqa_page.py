@@ -1,8 +1,11 @@
-from page_objects.Page_action import BasePage
-import allure
 import os
 from datetime import datetime
-from playwright.sync_api import  expect
+
+import allure
+from playwright.sync_api import expect
+
+from page_objects.Page_action import BasePage
+
 
 class DemoQAWebTablesPage(BasePage):
     def __init__(self, page):
@@ -24,8 +27,6 @@ class DemoQAWebTablesPage(BasePage):
     @allure.step("Проверить видимость модального окна")
     def check_modal_visible(self):
         expect(self.modal).to_be_visible()
-
-
 
 
 class DemoQAPracticeFormPage(BasePage):
@@ -152,6 +153,7 @@ class DemoQAPracticeFormPage(BasePage):
         footer_text = self.footer.inner_text()
         expected_text = "© 2013-2020 TOOLSQA.COM | ALL RIGHTS RESERVED."
         assert footer_text == expected_text, f"Footer text does not match expected. Got: {footer_text}"
+
 
 class DemoQARadioButtonPage(BasePage):
     def __init__(self, page):
@@ -292,7 +294,7 @@ class DemoQATextBoxPage(BasePage):
 
     @allure.step("Проверить вывод данных")
     def check_output(self, expected_name: str, expected_email: str,
-                    expected_current_addr: str, expected_permanent_addr: str):
+                     expected_current_addr: str, expected_permanent_addr: str):
         expect(self.output_name).to_have_text(f'Name:{expected_name}')
         expect(self.output_email).to_have_text(f'Email:{expected_email}')
         expect(self.output_current_address).to_have_text(f'Current Address :{expected_current_addr}')

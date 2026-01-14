@@ -1,8 +1,9 @@
+import allure
+import pytest
+
 from data.data_generator import DataGenerator
-from page_objects.Register_page import CinescopeRegisterPage
 from page_objects.Login_page import CinescopeLoginPage
-import  pytest
-import  allure
+from page_objects.Register_page import CinescopeRegisterPage
 
 
 @allure.epic("Тестирование UI")
@@ -10,7 +11,7 @@ import  allure
 @pytest.mark.ui
 class TestLoginPage:
     @allure.title("Проведение успешного входа в систему")
-    @pytest.mark.xfail(reason = "авторизация не работает корректно - регает только после перезагрузки")
+    @pytest.mark.xfail(reason="авторизация не работает корректно - регает только после перезагрузки")
     def test_login_by_ui_allure(self, page, registered_user):
         """Тест с использованием существующей фикстуры page"""
 
@@ -31,6 +32,7 @@ class TestLoginPage:
 
         with allure.step("Проверка всплывающего сообщения"):
             login_page.assert_allert_was_pop_up()
+
     #
     @allure.title("Проверка элементов страницы входа")
     def test_login_page_elements(self, page):
@@ -86,10 +88,4 @@ class TestRegisterPage:
             assert register_page.repeat_password_input.is_visible(), "Поле подтверждения пароля не отображается"
             assert register_page.register_button.is_visible(), "Кнопка регистрации не отображается"
 
-
-
-
-
-
 #
-

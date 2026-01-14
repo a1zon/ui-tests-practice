@@ -1,6 +1,8 @@
-from playwright.sync_api import Page
-from page_objects.Page_action import BasePage
 import allure
+from playwright.sync_api import Page
+
+from page_objects.Page_action import BasePage
+
 
 class CinescopeLoginPage(BasePage):
     def __init__(self, page: Page):

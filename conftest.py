@@ -1,9 +1,10 @@
 import pytest
 from faker import Faker
+from playwright.sync_api import expect
+
 from constants import DEFAULT_UI_TIMEOUT
 from data.data_generator import DataGenerator
 from tools import Tools
-from playwright.sync_api import expect
 
 
 @pytest.fixture(scope="function")
@@ -83,8 +84,9 @@ def invalid_user_data(fake):
         'xss': '<script>alert("xss")</script>',
     }
 
+
 @pytest.fixture(scope="function")
-def registered_user(test_user,page):
+def registered_user(test_user, page):
     registered_user = test_user
     page.goto("https://dev-cinescope.coconutqa.ru/register")
     page.wait_for_selector("[name='fullName']", state="visible", timeout=30000)
@@ -98,4 +100,4 @@ def registered_user(test_user,page):
     expect(submit_button).to_be_enabled()
     submit_button.click()
 
-    return  registered_user
+    return registered_user

@@ -1,6 +1,7 @@
 import allure
 from playwright.sync_api import Page
 
+
 class PageAction:
     def __init__(self, page: Page):
         self.page = page

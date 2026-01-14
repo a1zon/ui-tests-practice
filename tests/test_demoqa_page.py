@@ -1,5 +1,4 @@
 from page_objects.demoqa_page import *
-import allure
 
 
 @allure.epic("DemoQA")
@@ -138,4 +137,3 @@ class TestDemoQADynamicProperties:
         dynamic_page.open()
         dynamic_page.check_button_hidden()
         dynamic_page.wait_for_button()
-
