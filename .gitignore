@@ -9,3 +9,6 @@ files/playwright_trace/
 .venv/
 venv/
 
+#allure
+.allure-results/
+

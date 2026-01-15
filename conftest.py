@@ -1,8 +1,11 @@
 import pytest
 from faker import Faker
+from playwright.sync_api import expect
+
 from constants import DEFAULT_UI_TIMEOUT
 from data.data_generator import DataGenerator
 from tools import Tools
+from constants import REGISTER_PAGE
 
 
 @pytest.fixture(scope="function")
@@ -27,8 +30,8 @@ def browser(playwright):
     """
     Создание браузера
     """
-    browser = playwright.chromium.launch(headless=False,
-                                         slow_mo=300)  # headless=True для CI/CD, headless=False для локальной разработки
+    browser = playwright.chromium.launch(headless=True,
+                                         slow_mo=200)  # headless=True для CI/CD, headless=False для локальной разработки
     yield browser  # yield возвращает значение фикстуры, выполнение теста продолжится после yield
     browser.close()
 
@@ -81,3 +84,21 @@ def invalid_user_data(fake):
         'sql_injection': "'; DROP TABLE users; --",
         'xss': '<script>alert("xss")</script>',
     }
+
+
+@pytest.fixture(scope="function")
+def registered_user(test_user, page):
+    registered_user = test_user
+    page.goto(REGISTER_PAGE)
+    page.wait_for_selector("[name='fullName']", state="visible", timeout=30000)
+    page.wait_for_selector("[type='submit']", state="visible", timeout=30000)
+    page.fill("[name='fullName']", test_user['fullName'])
+    page.fill("[name='email']", test_user['email'])
+    page.fill("[name='password']", test_user['password'])
+    page.fill("[name='passwordRepeat']", test_user['passwordRepeat'])
+
+    submit_button = page.locator("[type='submit']")
+    expect(submit_button).to_be_enabled()
+    submit_button.click()
+
+    return registered_user
