@@ -1,4 +1,4 @@
-from page_objects.demoqa_page import *
+from page_objects.Demoqa_page import *
 
 
 @allure.epic("DemoQA")

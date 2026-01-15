@@ -5,6 +5,7 @@ from playwright.sync_api import expect
 from constants import DEFAULT_UI_TIMEOUT
 from data.data_generator import DataGenerator
 from tools import Tools
+from constants import REGISTER_PAGE
 
 
 @pytest.fixture(scope="function")
@@ -88,7 +89,7 @@ def invalid_user_data(fake):
 @pytest.fixture(scope="function")
 def registered_user(test_user, page):
     registered_user = test_user
-    page.goto("https://dev-cinescope.coconutqa.ru/register")
+    page.goto(REGISTER_PAGE)
     page.wait_for_selector("[name='fullName']", state="visible", timeout=30000)
     page.wait_for_selector("[type='submit']", state="visible", timeout=30000)
     page.fill("[name='fullName']", test_user['fullName'])

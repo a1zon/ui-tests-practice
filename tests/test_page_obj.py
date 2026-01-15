@@ -30,10 +30,9 @@ class TestLoginPage:
         with allure.step("Создание скриншота"):
             login_page.make_screenshot_and_attach_to_allure("После успешного входа")
 
-        with allure.step("Проверка всплывающего сообщения"):
-            login_page.assert_allert_was_pop_up()
+        login_page.assert_allert_was_pop_up()
 
-    #
+
     @allure.title("Проверка элементов страницы входа")
     def test_login_page_elements(self, page):
         """Тест проверки видимости элементов на странице входа"""
@@ -66,14 +65,12 @@ class TestRegisterPage:
         with allure.step(f"Заполнение формы регистрации: {random_email}"):
             register_page.register(f"PlaywrightTest {random_name}", random_email, random_password, random_password)
 
-        with allure.step("Проверка редиректа на страницу входа"):
-            register_page.assert_was_redirect_to_login_page()
+        register_page.assert_was_redirect_to_login_page()
 
         with allure.step("Создание скриншота"):
             register_page.make_screenshot_and_attach_to_allure("После успешной регистрации")
 
-        with allure.step("Проверка всплывающего сообщения"):
-            register_page.assert_allert_was_pop_up()
+        register_page.assert_allert_was_pop_up()
 
     @allure.title("Проверка элементов страницы регистрации")
     def test_register_page_elements(self, page):

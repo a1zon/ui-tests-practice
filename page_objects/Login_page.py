@@ -2,12 +2,13 @@ import allure
 from playwright.sync_api import Page
 
 from page_objects.Page_action import BasePage
+from constants import REGISTER_PAGE, LOGIN_PAGE
 
 
 class CinescopeLoginPage(BasePage):
     def __init__(self, page: Page):
         super().__init__(page)
-        self.url = "https://dev-cinescope.coconutqa.ru/login"
+        self.url = LOGIN_PAGE
 
         # Локаторы
         self.email_input = page.get_by_role("textbox", name="Email")

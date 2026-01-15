@@ -57,7 +57,7 @@ class CinescopeRegisterPage(BasePage):
         self.page.wait_for_url("https://dev-cinescope.coconutqa.ru/login")
         assert self.page.url == "https://dev-cinescope.coconutqa.ru/login", "Редирект на страницу входа не произошел"
 
-    @allure.step("Проверка всплывающего сообщения")
+    # @allure.step("Проверка всплывающего сообщения")
     def check_allert(self):
         """Старое название метода (сохранено для совместимости)"""
         self.check_pop_up_element_with_text("Подтвердите свою почту")
@@ -67,7 +67,7 @@ class CinescopeRegisterPage(BasePage):
         """Алиас для wait_redirect_to_login_page"""
         self.wait_redirect_to_login_page()
 
-    @allure.step("Проверка всплывающего сообщения")
+    # @allure.step("Проверка всплывающего сообщения")
     def assert_allert_was_pop_up(self):
         """Алиас для check_allert"""
         self.check_allert()
